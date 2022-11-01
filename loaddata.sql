@@ -88,4 +88,4 @@ CREATE TABLE "Categories" (
 INSERT INTO Categories ('label') VALUES ('News');
 INSERT INTO Tags ('label') VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.com/so/happy');
-INSERT INTO `Posts` VALUES (Null, 1, 5, "A Title", 1999-10-10, "Image", "Content", 1)
+INSERT INTO `Posts` VALUES (Null, 1, 5, "A Title", date, "Image", "Content", 1)
