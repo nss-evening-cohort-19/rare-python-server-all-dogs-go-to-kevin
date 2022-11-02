@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+from views.comment_requests import get_all_comments, get_single_comment
 from views.post_requests import get_all_posts, get_single_post
 
 from views.user import create_user, login_user
@@ -65,6 +66,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_post(id)}"
                 else:
                     response = f"{get_all_posts()}"
+            elif resource == "comments":
+                if id is not None:
+                    response = f"{get_single_comment(id)}"
+                else:
+                    response = f"{get_all_comments()}"
         else:
             pass
 
