@@ -30,11 +30,8 @@
                 "sha256:ed77137193bbac52d029a52c59bec1b0629b5a186c495f1eb21b126ac466083f"
             ],
             "index": "pypi",
-<<<<<<< HEAD
             "version": "==2.0.0"
         },
-<<<<<<< HEAD
-=======
         "colorama": {
             "hashes": [
                 "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44",
@@ -43,7 +40,6 @@
             "markers": "sys_platform == 'win32'",
             "version": "==0.4.6"
         },
->>>>>>> c072be1ad1cbdafd01f3bf2677b07749d922183e
         "dill": {
             "hashes": [
                 "sha256:a07ffd2351b8c678dfc4a856a3005f8067aea51d6ba6c700796a4d9e280f39f0",
@@ -51,9 +47,6 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==0.3.6"
-=======
-            "version": "==1.6.0"
->>>>>>> main
         },
         "isort": {
             "hashes": [
