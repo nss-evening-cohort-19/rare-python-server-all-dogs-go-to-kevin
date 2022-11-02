@@ -58,7 +58,7 @@ def get_single_post(id):
 
         return json.dumps(post.__dict__)
 
-def create_animal(new_post):
+def create_post(new_post):
     with sqlite3.connect("./db.sqlite3") as conn:
         db_cursor = conn.cursor()
 
