@@ -5,6 +5,7 @@ from views import (
     get_single_comment,
     get_all_posts,
     get_single_post,
+    update_comment,
     create_post,
     update_post,
     delete_post)
