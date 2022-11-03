@@ -1,7 +1,15 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from views.comment_requests import get_all_comments, get_single_comment, delete_comment
-from views.post_requests import get_all_posts, get_single_post
+from views import (
+    get_all_comments,
+    get_single_comment,
+    get_all_posts,
+    get_single_post,
+    update_comment,
+    create_post,
+    update_post,
+    delete_post)
+from views.post_requests import delete_post
 
 from views.user import create_user, login_user
 
@@ -94,7 +102,27 @@ class HandleRequests(BaseHTTPRequestHandler):
 
     def do_PUT(self):
         """Handles PUT requests to the server"""
-        pass
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        success = False
+
+        if resource == "comments":
+            success = update_comment(id, post_body)
+        elif resource == "posts":
+            success = update_post(id,post_body)
+        # rest of the elif's
+
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         """Handle DELETE Requests"""
