@@ -49,3 +49,21 @@ def get_single_comment(id):
         comment = Comment(data['id'], data['post_id'], data['author_id'], data['content'])
 
         return json.dumps(comment.__dict__)
+      
+def update_comment(id, new_comment):
+    with sqlite3.connect("./db.sqlite3") as conn:
+      db_cursor = conn.cursor()
+      db_cursor.execute("""
+      UPDATE Comments
+          SET
+              post_id = ?,
+              author_id = ?,
+              content = ?
+      WHERE id = ?
+      """, (new_comment['post_id'], new_comment['author_id'], new_comment['content'], id, ))
+      rows_affected = db_cursor.rowcount
+      
+      if rows_affected == 0:
+        return False
+      else:
+        return True
