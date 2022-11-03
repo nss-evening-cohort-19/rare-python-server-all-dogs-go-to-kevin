@@ -5,6 +5,7 @@ from views import (
     get_single_comment,
     get_all_posts,
     get_single_post,
+    update_comment,
     create_post,
     update_post,
     delete_post)
@@ -111,14 +112,16 @@ class HandleRequests(BaseHTTPRequestHandler):
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
 
+        # Parse the URL
         (resource, id) = self.parse_url(self.path)
 
         success = False
 
-        if resource == "posts":
-            success = update_post(id, post_body)
-        elif resource == "comments":
+        if resource == "comments":
             success = update_comment(id, post_body)
+        elif resource == "posts":
+            success = update_post(id,post_body)
+        # rest of the elif's
 
         if success:
             self._set_headers(204)
