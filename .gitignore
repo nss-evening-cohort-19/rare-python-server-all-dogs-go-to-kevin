@@ -154,3 +154,4 @@ cython_debug/
 
 loaddata.sql
 db.sqlite3
+Pipfile.lock
