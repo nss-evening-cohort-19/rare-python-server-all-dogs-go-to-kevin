@@ -90,22 +90,54 @@ class HandleRequests(BaseHTTPRequestHandler):
         content_len = int(self.headers.get('content-length', 0))
         post_body = json.loads(self.rfile.read(content_len))
         response = ''
-        resource, _ = self.parse_url()
+        resource, _ = self.parse_url(self.path)
+
+        new_post = None
+        # new_comment = None
 
         if resource == 'login':
             response = login_user(post_body)
         if resource == 'register':
             response = create_user(post_body)
+        if resource == "posts":
+            new_post = create_post(post_body)
+            self.wfile.write(f"{new_post}".encode())
 
         self.wfile.write(response.encode())
 
     def do_PUT(self):
         """Handles PUT requests to the server"""
-        pass
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        (resource, id) = self.parse_url(self.path)
+
+        success = False
+
+        if resource == "posts":
+            success = update_post(id, post_body)
+        elif resource == "comments":
+            success = update_comment(id, post_body)
+
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         """Handle DELETE Requests"""
-        pass
+        self._set_headers(204)
+
+        (resource, id) = self.parse_url(self.path)
+
+        if resource == "posts":
+            delete_post(id)
+        # elif resource == "comments":
+        #     delete_comment(id)
+
+        self.wfile.write("".encode())
 
 
 def main():

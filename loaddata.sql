@@ -88,8 +88,6 @@ CREATE TABLE "Categories" (
 INSERT INTO Categories ('label') VALUES ('News');
 INSERT INTO Tags ('label') VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.com/so/happy');
-<<<<<<< HEAD
-=======
 
 INSERT INTO `Posts` VALUES (Null, 1, 5, "A Title", 1999-10-10, "Image URL", "Content", 1);
 INSERT INTO `Posts` VALUES (Null, 1, 5, "Beans", 1999-10-10, "Image URL", "A lot of them", 1);
@@ -100,4 +98,3 @@ INSERT INTO `Comments` VALUES (Null, 1, 1, "Its a title alright");
 INSERT INTO `Comments` VALUES (Null, 1, 2, "The best title");
 INSERT INTO `Comments` VALUES (Null, 2, 3, "Always thinkin about em");
 INSERT INTO `Comments` VALUES (Null, 2, 4, "Eating them in a theatre");
->>>>>>> c421513589c75c0c3e738ad3f072b9ad234556c4
