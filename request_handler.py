@@ -10,7 +10,6 @@ from views import (
     create_post,
     update_post,
     delete_post)
-from views.post_requests import delete_post
 
 from views.user import create_user, login_user
 
@@ -133,23 +132,14 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_DELETE(self):
         """Handle DELETE Requests"""
         self._set_headers(204)
-<<<<<<< HEAD
 
-        (resource, id) = self.parse_url(self.path)
-
-        if resource == "posts":
-            delete_post(id)
-        # elif resource == "comments":
-        #     delete_comment(id)
-
-=======
-        
         (resource, id) = self.parse_url(self.path)
 
         if resource == "comments":
             delete_comment(id)
-            
->>>>>>> main
+        elif resource == "posts":
+            delete_post(id)
+
         self.wfile.write("".encode())
 
 
