@@ -51,7 +51,7 @@ def get_single_comment(id):
         return json.dumps(comment.__dict__)
       
 def update_comment(id, new_comment):
-    with sqlite3.connect("./kennel.sqlite3") as conn:
+    with sqlite3.connect("./db.sqlite3") as conn:
       db_cursor = conn.cursor()
       db_cursor.execute("""
       UPDATE Comments

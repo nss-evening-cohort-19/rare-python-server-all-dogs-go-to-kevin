@@ -5,6 +5,7 @@ from views import (
     get_single_comment,
     get_all_posts,
     get_single_post,
+    update_comment,
     create_post,
     update_post,
     delete_post)
@@ -112,6 +113,8 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "comments":
             success = update_comment(id, post_body)
+        elif resource == "posts":
+            success = update_post(id,post_body)
         # rest of the elif's
 
         if success:
