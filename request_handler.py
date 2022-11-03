@@ -1,7 +1,14 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from views.comment_requests import get_all_comments, get_single_comment, update_comment
-from views.post_requests import get_all_posts, get_single_post
+from views import (
+    get_all_comments,
+    get_single_comment,
+    get_all_posts,
+    get_single_post,
+    create_post,
+    update_post,
+    delete_post)
+from views.post_requests import delete_post
 
 from views.user import create_user, login_user
 
