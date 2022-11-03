@@ -6,6 +6,7 @@ from views import (
     get_all_posts,
     get_single_post,
     update_comment,
+    delete_comment,
     create_post,
     update_post,
     delete_post)
@@ -132,6 +133,7 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_DELETE(self):
         """Handle DELETE Requests"""
         self._set_headers(204)
+<<<<<<< HEAD
 
         (resource, id) = self.parse_url(self.path)
 
@@ -140,6 +142,14 @@ class HandleRequests(BaseHTTPRequestHandler):
         # elif resource == "comments":
         #     delete_comment(id)
 
+=======
+        
+        (resource, id) = self.parse_url(self.path)
+
+        if resource == "comments":
+            delete_comment(id)
+            
+>>>>>>> main
         self.wfile.write("".encode())
 
 
