@@ -11,6 +11,11 @@ from views import (
     create_post,
     update_post,
     delete_post,
+    get_single_sub,
+    get_all_subs,
+    create_sub,
+    update_sub,
+    delete_sub,
     )
 from views.comment_requests import get_comments_by_post
 
@@ -38,7 +43,7 @@ class HandleRequests(BaseHTTPRequestHandler):
     #         except (IndexError, ValueError):
     #             pass
     #         return (resource, id)
-    
+
     # replace the parse_url function in the class
     def parse_url(self, path):
         """Parse the url into the resource and id"""
@@ -100,10 +105,15 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_comment(id)}"
                 else:
                     response = f"{get_all_comments()}"
+            elif resource == "subscriptions":
+                if id is not None:
+                    response = f"{get_single_sub(id)}"
+                else:
+                    response = f"{get_all_subs()}"
         else:
             # pass
             (resource, query) = parsed
-        
+
             if query.get('post_id') and resource == 'comments':
                 response = get_comments_by_post(query ['post_id'][0])
 
@@ -119,7 +129,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         resource, _ = self.parse_url(self.path)
 
         new_post = None
-        # new_comment = None
+        new_sub = None
 
         if resource == 'login':
             response = login_user(post_body)
@@ -128,6 +138,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "posts":
             new_post = create_post(post_body)
             self.wfile.write(f"{new_post}".encode())
+        if resource == "subscriptions":
+            new_sub = create_sub(post_body)
+            self.wfile.write(f"{new_sub}".encode())
 
         self.wfile.write(response.encode())
 
@@ -146,7 +159,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             success = update_comment(id, post_body)
         elif resource == "posts":
             success = update_post(id,post_body)
-        # rest of the elif's
+        elif resource == "subscriptions":
+            success = update_sub(id, post_body)
 
         if success:
             self._set_headers(204)
@@ -164,6 +178,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             delete_comment(id)
         elif resource == "posts":
             delete_post(id)
+        elif resource == "subscriptions":
+            delete_sub(id)
 
         self.wfile.write("".encode())
 

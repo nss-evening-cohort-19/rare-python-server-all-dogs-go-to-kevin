@@ -111,3 +111,23 @@ def update_post(id, new_post):
         return False
     else:
         return True
+
+def get_subscribed_posts(author_id):
+
+    with sqlite3.connect("./dbsqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            p.approved
+        FROM Posts p
+        WHERE p.user_id = author_id
+        """)
