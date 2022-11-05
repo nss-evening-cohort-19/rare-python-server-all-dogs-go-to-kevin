@@ -3,6 +3,7 @@ from .comment_requests import (
     get_single_comment,
     update_comment,
     delete_comment,
+    get_comments_by_post
 )
 from .post_requests import (
     get_all_posts,
