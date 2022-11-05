@@ -93,8 +93,13 @@ INSERT INTO `Posts` VALUES (Null, 1, 5, "A Title", 1999-10-10, "Image URL", "Con
 INSERT INTO `Posts` VALUES (Null, 1, 5, "Beans", 1999-10-10, "Image URL", "A lot of them", 1);
 INSERT INTO `Posts` VALUES (Null, 1, 5, "Crumb", 1999-10-10, "Image URL", "All over the floor", 1);
 INSERT INTO `Posts` VALUES (Null, 1, 5, "Banana", 1999-10-10, "Image URL", "Every morning", 1);
+INSERT INTO `Posts` VALUES(Null, 55, 5, "Wake Up", 1999-10-10, "Image URL", "This craigs post", 1);
 
 INSERT INTO `Comments` VALUES (Null, 1, 1, "Its a title alright");
 INSERT INTO `Comments` VALUES (Null, 1, 2, "The best title");
 INSERT INTO `Comments` VALUES (Null, 2, 3, "Always thinkin about em");
 INSERT INTO `Comments` VALUES (Null, 2, 4, "Eating them in a theatre");
+
+INSERT INTO `Subscriptions` VALUES (Null, 1, 55, 1999/01/01);
+
+INSERT INTO `Users` VALUES (55, "Craig", "Imad", "Scrum47", "I love beans", "crumble@imad.com", "Password420", NULL, 2022, 1)
