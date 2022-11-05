@@ -96,7 +96,7 @@ def get_comments_by_post(post):
             c.post_id,
             c.author_id,
             c.content
-        from Comment c
+        from Comments c
         WHERE c.post_id = ?
         """, ( post, ))
         
