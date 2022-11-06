@@ -1,6 +1,9 @@
 import sqlite3
 import json
-from models import Post
+from models import (
+    Post,
+    User,
+)
 
 def get_all_posts():
     with sqlite3.connect("./db.sqlite3") as conn:
@@ -112,22 +115,30 @@ def update_post(id, new_post):
     else:
         return True
 
-def get_subscribed_posts(author_id):
+def get_subscribed_posts(user_id):
 
-    with sqlite3.connect("./dbsqlite3") as conn:
+    with sqlite3.connect("./db.sqlite3") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        SELECT
-            p.id,
-            p.user_id,
-            p.category_id,
-            p.title,
-            p.publication_date,
-            p.image_url,
-            p.content,
-            p.approved
-        FROM Posts p
-        WHERE p.user_id = author_id
-        """)
+        SELECT * FROM Posts p
+        JOIN Users u on p.user_id = u.id
+        WHERE p.user_id = ?
+        """, ( user_id, ))
+
+        posts = []
+
+        dataset = db_cursor.fetchall()
+
+        for row in dataset:
+
+            post = Post(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
+
+            user = User(row['id'], row['first_name'], row['last_name'], row['email'], row['bio'], row['username'], row['password'], row['profile_image_url'], row['created_on'], row['active'])
+
+            post.user = user.__dict__
+
+            posts.append(post.__dict__)
+
+        return json.dumps(posts)

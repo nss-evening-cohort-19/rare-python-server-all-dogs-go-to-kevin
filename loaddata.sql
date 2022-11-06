@@ -103,3 +103,7 @@ INSERT INTO `Comments` VALUES (Null, 2, 4, "Eating them in a theatre");
 INSERT INTO `Subscriptions` VALUES (Null, 1, 55, 1999/01/01);
 
 INSERT INTO `Users` VALUES (55, "Craig", "Imad", "Scrum47", "I love beans", "crumble@imad.com", "Password420", NULL, 2022, 1)
+
+SELECT * FROM posts p
+        JOIN Users u on p.user_id = u.id
+        WHERE p.user_id = 1

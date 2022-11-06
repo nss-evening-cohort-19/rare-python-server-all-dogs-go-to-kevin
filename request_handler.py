@@ -16,13 +16,12 @@ from views import (
     create_sub,
     update_sub,
     delete_sub,
+    get_comments_by_post,
+    get_subscribed_posts,
     )
 
 from views.user import create_user, login_user
-
-
 class HandleRequests(BaseHTTPRequestHandler):
-    """Handles the requests to this server"""
 
     # def parse_url(self, path):
     #     """Parse the url into the resource and id"""
@@ -109,9 +108,10 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_sub(id)}"
                 else:
                     response = f"{get_all_subs()}"
-        else:
-            # pass
+        else: #there is a ? in the path.
             (resource, query) = parsed
+            if query.get('user_id') and resource == 'posts':
+                response = get_subscribed_posts(query['user_id'][0])
 
             if query.get('post_id') and resource == 'comments':
                 response = get_comments_by_post(query ['post_id'][0])
