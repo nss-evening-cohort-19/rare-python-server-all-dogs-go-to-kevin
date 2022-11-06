@@ -17,7 +17,6 @@ from views import (
     update_sub,
     delete_sub,
     )
-from views.comment_requests import get_comments_by_post
 
 from views.user import create_user, login_user
 
