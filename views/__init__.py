@@ -11,6 +11,7 @@ from .post_requests import (
     create_post,
     delete_post,
     update_post,
+    get_subscribed_posts,
 )
 
 from .subsription_requests import (
