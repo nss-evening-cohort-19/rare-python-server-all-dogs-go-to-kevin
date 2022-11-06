@@ -18,6 +18,10 @@ from views import (
     delete_sub,
     get_comments_by_post,
     get_subscribed_posts,
+    get_all_tags,
+    update_tag,
+    create_tag,
+    delete_tag
     )
 
 from views.user import create_user, login_user
@@ -108,6 +112,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_sub(id)}"
                 else:
                     response = f"{get_all_subs()}"
+            elif resource == "tags":
+                if id is not None:
+                    pass
+                else:
+                    response = f"{get_all_tags()}"
         else: #there is a ? in the path.
             (resource, query) = parsed
             if query.get('user_id') and resource == 'posts':
@@ -129,6 +138,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         new_post = None
         new_sub = None
+        new_tag = None
 
         if resource == 'login':
             response = login_user(post_body)
@@ -140,6 +150,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "subscriptions":
             new_sub = create_sub(post_body)
             self.wfile.write(f"{new_sub}".encode())
+        if resource == "tags":
+            new_tag = create_tag(post_body)
+            self.wfile.write(f"{new_tag}".encode())
 
         self.wfile.write(response.encode())
 
@@ -160,6 +173,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             success = update_post(id,post_body)
         elif resource == "subscriptions":
             success = update_sub(id, post_body)
+        elif resource == "tags":
+            success = update_tag(id, post_body)
 
         if success:
             self._set_headers(204)
@@ -179,6 +194,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             delete_post(id)
         elif resource == "subscriptions":
             delete_sub(id)
+        elif resource == "tags":
+            delete_tag(id)
 
         self.wfile.write("".encode())
 

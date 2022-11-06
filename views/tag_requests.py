@@ -65,5 +65,5 @@ def update_tag(id, tag_change):
 
         if rows_affected == 0:
             return False
-        else
+        else:
             return True
