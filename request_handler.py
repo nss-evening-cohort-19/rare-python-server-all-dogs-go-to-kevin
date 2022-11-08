@@ -31,6 +31,7 @@ from views import (
     update_category,
     delete_category,
     )
+from views.comment_requests import create_comment
 
 from views.user import create_user, login_user
 class HandleRequests(BaseHTTPRequestHandler):
@@ -159,6 +160,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         new_tag = None
         new_post_tag = None
         new_category = None
+        new_comment = None
 
         if resource == 'login':
             response = login_user(post_body)
@@ -179,6 +181,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "posttags":
             new_post_tag = create_post_tag(post_body)
             self.wfile.write(f"{new_post_tag}".encode())
+        if resource == "comments":
+            new_comment = create_comment(post_body)
+            self.wfile.write(f"{new_comment}".encode())
 
         self.wfile.write(response.encode())
 
