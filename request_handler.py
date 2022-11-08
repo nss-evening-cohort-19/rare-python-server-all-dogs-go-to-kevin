@@ -21,7 +21,10 @@ from views import (
     get_all_tags,
     update_tag,
     create_tag,
-    delete_tag
+    delete_tag,
+    get_all_post_tags,
+    create_post_tag,
+    remove_post_tag,
     )
 
 from views.user import create_user, login_user
@@ -117,6 +120,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                     pass
                 else:
                     response = f"{get_all_tags()}"
+            elif resource == "posttags":
+                if id is not None:
+                    pass
+                else:
+                    response = f"{get_all_post_tags()}"
         else: #there is a ? in the path.
             (resource, query) = parsed
             if query.get('user_id') and resource == 'posts':
@@ -139,6 +147,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         new_post = None
         new_sub = None
         new_tag = None
+        new_post_tag = None
 
         if resource == 'login':
             response = login_user(post_body)
@@ -153,6 +162,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "tags":
             new_tag = create_tag(post_body)
             self.wfile.write(f"{new_tag}".encode())
+        if resource == "posttags":
+            new_post_tag = create_post_tag(post_body)
+            self.wfile.write(f"{new_post_tag}".encode())
 
         self.wfile.write(response.encode())
 
@@ -196,6 +208,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             delete_sub(id)
         elif resource == "tags":
             delete_tag(id)
+        elif resource == "posttags":
+            remove_post_tag(id)
 
         self.wfile.write("".encode())
 

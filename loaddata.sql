@@ -104,6 +104,14 @@ INSERT INTO `Subscriptions` VALUES (Null, 1, 55, 1999/01/01);
 
 INSERT INTO `Users` VALUES (55, "Craig", "Imad", "Scrum47", "I love beans", "crumble@imad.com", "Password420", NULL, 2022, 1)
 
-SELECT * FROM posts p
-        JOIN Users u on p.user_id = u.id
-        WHERE p.user_id = 1
+INSERT INTO `PostTags` VALUES (1, 17, 2)
+
+SELECT
+            pt.id,
+            pt.post_id,
+            pt.tag_id,
+            t.id,
+            t.label
+        FROM PostTags pt
+        JOIN Tags t
+            on t.id = pt.tag_id
