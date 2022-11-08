@@ -27,9 +27,9 @@ def get_all_comments():
         for row in dataset:
 
             comment = Comment(row['id'], row['post_id'], row['author_id'], row['content'])
-            
+
             # post = Post(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
-            
+
             # comment.post = post.__dict__
 
             comments.append(comment.__dict__)
@@ -85,11 +85,11 @@ def update_comment(id, new_comment):
         return True
 
 def get_comments_by_post(post):
-  
+
     with sqlite3.connect("./db.sqlite3") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
-        
+
         db_cursor.execute("""
         select
             c.id,
@@ -99,12 +99,12 @@ def get_comments_by_post(post):
         from Comments c
         WHERE c.post_id = ?
         """, ( post, ))
-        
+
         comments = []
         dataset = db_cursor.fetchall()
-        
+
         for row in dataset:
             comment = Comment(row['id'], row['post_id'], row['author_id'], row['content'])
             comments.append(comment.__dict__)
-            
+
     return json.dumps(comments)

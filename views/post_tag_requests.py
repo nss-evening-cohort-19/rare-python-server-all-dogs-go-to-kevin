@@ -17,7 +17,7 @@ def get_all_post_tags():
             t.id,
             t.label
         FROM PostTags pt
-        JOIN tags t
+        JOIN Tags t
             on t.id = pt.tag_id
         """)
 
@@ -59,4 +59,3 @@ def remove_post_tag(id):
         DELETE FROM PostTags
         WHERE id = ?
         """, ( id, ))
-
