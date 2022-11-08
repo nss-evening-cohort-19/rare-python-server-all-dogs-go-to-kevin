@@ -21,3 +21,10 @@ from .subsription_requests import (
     update_sub,
     delete_sub,
 )
+
+from .tag_requests import (
+    get_all_tags,
+    create_tag,
+    update_tag,
+    delete_tag
+)
