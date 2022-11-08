@@ -16,8 +16,8 @@ def get_all_comments():
             c.author_id,
             c.content
         FROM Comments c
-        # JOIN Post p
-        #   ON p.id = c.post_id
+        JOIN Posts p
+        ON p.id = c.post_id
         """)
 
         comments = []
@@ -56,6 +56,22 @@ def get_single_comment(id):
         comment = Comment(data['id'], data['post_id'], data['author_id'], data['content'])
 
         return json.dumps(comment.__dict__)
+      
+def create_comment(new_comment):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+        
+        db_cursor.execute("""
+        INSERT INTO Comments
+            ( id, post_id, author_id, content )
+        VALUES ( ?, ?, ?, ? );
+        """, (new_comment['id'], new_comment['post_id'], new_comment['author_id'], new_comment['content'] ))
+        
+        id = db_cursor.lastrowid
+        
+        new_comment['id'] = id
+        
+    return json.dumps(new_comment)
 
 def delete_comment(id):
     with sqlite3.connect("./db.sqlite3") as conn:
