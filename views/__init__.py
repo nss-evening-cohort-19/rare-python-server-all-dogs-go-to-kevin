@@ -51,3 +51,11 @@ from .reaction_requests import (
     update_reaction,
     delete_reaction
 )
+
+from.post_reaction_requests import (
+    get_all_post_reactions,
+    get_single_post_reaction,
+    create_post_reaction,
+    update_post_reaction,
+    delete_post_reaction
+)
