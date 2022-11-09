@@ -34,3 +34,11 @@ from .post_tag_requests import (
     create_post_tag,
     remove_post_tag,
 )
+
+from .category_requests import (
+    get_all_categories,
+    get_single_category,
+    create_category,
+    update_category,
+    delete_category,
+)

@@ -32,7 +32,7 @@ def create_tag(new_tag):
         db_cursor.execute("""
         INSERT INTO tags
             (label)
-            VALUES
+        VALUES
             (?)
             """, ( new_tag['label'], ))
 
