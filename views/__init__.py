@@ -43,3 +43,11 @@ from .category_requests import (
     update_category,
     delete_category,
 )
+
+from .reaction_requests import (
+    get_all_reactions,
+    get_single_reaction,
+    create_reaction,
+    update_reaction,
+    delete_reaction
+)
