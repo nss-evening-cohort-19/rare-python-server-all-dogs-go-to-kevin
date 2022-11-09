@@ -30,8 +30,9 @@ from views import (
     create_category,
     update_category,
     delete_category,
+    create_comment,
     )
-from views.comment_requests import create_comment
+
 
 from views.user import create_user, login_user
 class HandleRequests(BaseHTTPRequestHandler):
@@ -111,27 +112,27 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_post(id)}"
                 else:
                     response = f"{get_all_posts()}"
-            elif resource == "comments":
+            if resource == "comments":
                 if id is not None:
                     response = f"{get_single_comment(id)}"
                 else:
                     response = f"{get_all_comments()}"
-            elif resource == "subscriptions":
+            if resource == "subscriptions":
                 if id is not None:
                     response = f"{get_single_sub(id)}"
                 else:
                     response = f"{get_all_subs()}"
-            elif resource == "categories":
+            if resource == "categories":
                 if id is not None:
                     response = f"{get_single_category(id)}"
                 else:
                     response = f"{get_all_categories()}"
-            elif resource == "tags":
+            if resource == "tags":
                 if id is not None:
                     pass
                 else:
                     response = f"{get_all_tags()}"
-            elif resource == "posttags":
+            if resource == "posttags":
                 if id is not None:
                     pass
                 else:
@@ -142,7 +143,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 response = get_subscribed_posts(query['user_id'][0])
 
             if query.get('post_id') and resource == 'comments':
-                response = get_comments_by_post(query ['post_id'][0])
+                response = get_comments_by_post(query['post_id'][0])
 
         self.wfile.write(response.encode())
 
@@ -159,7 +160,6 @@ class HandleRequests(BaseHTTPRequestHandler):
         new_sub = None
         new_tag = None
         new_post_tag = None
-        new_category = None
         new_comment = None
 
         if resource == 'login':
