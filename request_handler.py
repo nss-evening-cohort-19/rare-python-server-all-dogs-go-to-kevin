@@ -32,6 +32,7 @@ from views import (
     delete_category,
     create_comment,
     )
+from views.reaction_requests import get_all_reactions
 
 
 from views.user import create_user, login_user
@@ -137,6 +138,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                     pass
                 else:
                     response = f"{get_all_post_tags()}"
+            if resource == "reactions":
+                if id is not None:
+                    pass
+                else:
+                    response = f"{get_all_reactions()}"
         else: #there is a ? in the path.
             (resource, query) = parsed
             if query.get('user_id') and resource == 'posts':
