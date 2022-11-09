@@ -95,7 +95,7 @@ INSERT INTO `Posts` VALUES (Null, 1, 5, "Crumb", 1999-10-10, "Image URL", "All o
 INSERT INTO `Posts` VALUES (Null, 1, 5, "Banana", 1999-10-10, "Image URL", "Every morning", 1);
 INSERT INTO `Posts` VALUES(Null, 55, 5, "Wake Up", 1999-10-10, "Image URL", "This craigs post", 1);
 
-INSERT INTO `Comments` VALUES (Null, 1, 1, "Its a title alright");
+INSERT INTO `Comments` VALUES (Null, 18, 1, "Its a title alright");
 INSERT INTO `Comments` VALUES (Null, 1, 2, "The best title");
 INSERT INTO `Comments` VALUES (Null, 2, 3, "Always thinkin about em");
 INSERT INTO `Comments` VALUES (Null, 2, 4, "Eating them in a theatre");
@@ -107,11 +107,12 @@ INSERT INTO `Users` VALUES (55, "Craig", "Imad", "Scrum47", "I love beans", "cru
 INSERT INTO `PostTags` VALUES (1, 17, 2)
 
 SELECT
-            pt.id,
-            pt.post_id,
-            pt.tag_id,
-            t.id,
-            t.label
-        FROM PostTags pt
-        JOIN Tags t
-            on t.id = pt.tag_id
+  c.id,
+  c.post_id,
+  c.author_id,
+  c.content,
+  p.id
+FROM Comments c
+JOIN Posts p
+  ON c.post_id = p.id
+WHERE p.id = 3

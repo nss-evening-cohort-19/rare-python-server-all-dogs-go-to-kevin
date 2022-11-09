@@ -123,7 +123,7 @@ def get_subscribed_posts(user_id):
 
         db_cursor.execute("""
         SELECT * FROM Posts p
-        JOIN Users u on p.user_id = u.id
+        JOIN Users u ON p.user_id = u.id
         WHERE p.user_id = ?
         """, ( user_id, ))
 
