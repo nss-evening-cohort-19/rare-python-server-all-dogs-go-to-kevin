@@ -31,7 +31,13 @@ from views import (
     update_category,
     delete_category,
     create_comment,
+    get_all_reactions,
+    get_single_reaction,
+    create_reaction,
+    update_reaction,
+    delete_reaction
     )
+from views.post_reaction_requests import get_all_post_reactions
 
 
 from views.user import create_user, login_user
@@ -137,6 +143,14 @@ class HandleRequests(BaseHTTPRequestHandler):
                     pass
                 else:
                     response = f"{get_all_post_tags()}"
+            if resource == "reactions":
+                if id is not None:
+                    response = f"{get_single_reaction(id)}"
+                else:
+                    response = f"{get_all_reactions()}"
+            if resource == "post_reactions":
+                if id is not None:
+                    response = f"{get_all_post_reactions}"
         else: #there is a ? in the path.
             (resource, query) = parsed
             if query.get('user_id') and resource == 'posts':
@@ -144,7 +158,6 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             if query.get('post_id') and resource == 'comments':
                 response = get_comments_by_post(query['post_id'][0])
-
         self.wfile.write(response.encode())
 
 
@@ -161,6 +174,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         new_tag = None
         new_post_tag = None
         new_comment = None
+        new_reaction = None
 
         if resource == 'login':
             response = login_user(post_body)
@@ -184,6 +198,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "comments":
             new_comment = create_comment(post_body)
             self.wfile.write(f"{new_comment}".encode())
+        if resource == "reactions":
+            new_reaction = create_reaction(post_body)
+            self.wfile.write(f"{new_reaction}".encode())
 
         self.wfile.write(response.encode())
 
@@ -208,6 +225,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             success = update_tag(id, post_body)
         elif resource == "categories":
             success = update_category(id, post_body)
+        elif resource == "reactions":
+            success = update_reaction(id, post_body)
 
         if success:
             self._set_headers(204)
@@ -233,6 +252,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             remove_post_tag(id)
         elif resource == "categories":
             delete_category(id)
+        elif resource == "reactions":
+            delete_reaction(id)
 
         self.wfile.write("".encode())
 
