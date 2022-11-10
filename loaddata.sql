@@ -88,3 +88,35 @@ CREATE TABLE "Categories" (
 INSERT INTO Categories ('label') VALUES ('News');
 INSERT INTO Tags ('label') VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.com/so/happy');
+
+INSERT INTO `Posts` VALUES (Null, 1, 5, "A Title", 1999-10-10, "Image URL", "Content", 1);
+INSERT INTO `Posts` VALUES (Null, 1, 5, "Beans", 1999-10-10, "Image URL", "A lot of them", 1);
+INSERT INTO `Posts` VALUES (Null, 1, 5, "Crumb", 1999-10-10, "Image URL", "All over the floor", 1);
+INSERT INTO `Posts` VALUES (Null, 1, 5, "Banana", 1999-10-10, "Image URL", "Every morning", 1);
+INSERT INTO `Posts` VALUES(Null, 55, 5, "Wake Up", 1999-10-10, "Image URL", "This craigs post", 1);
+
+INSERT INTO `Comments` VALUES (Null, 18, 1, "Its a title alright");
+INSERT INTO `Comments` VALUES (Null, 1, 2, "The best title");
+INSERT INTO `Comments` VALUES (Null, 2, 3, "Always thinkin about em");
+INSERT INTO `Comments` VALUES (Null, 2, 4, "Eating them in a theatre");
+
+INSERT INTO `Subscriptions` VALUES (Null, 1, 55, 1999/01/01);
+
+INSERT INTO `Users` VALUES (55, "Craig", "Imad", "Scrum47", "I love beans", "crumble@imad.com", "Password420", NULL, 2022, 1)
+
+INSERT INTO `PostTags` VALUES (1, 17, 2)
+
+SELECT
+  c.id,
+  c.post_id,
+  c.author_id,
+  c.content,
+  p.id
+FROM Comments c
+JOIN Posts p
+  ON c.post_id = p.id
+WHERE p.id = 3
+
+INSERT INTO `Reactions` VALUES (NULL, "A Label", "https://tinyurl.com/4zrpet4x");
+INSERT INTO `Reactions` VALUES (NULL, "Another Label", "https://tinyurl.com/3vb8mex4");
+INSERT INTO `Reactions` VALUES (NULL, "Another One", "https://tinyurl.com/yc494r5k");
