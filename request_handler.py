@@ -37,6 +37,7 @@ from views import (
     update_reaction,
     delete_reaction
     )
+from views.post_reaction_requests import get_all_post_reactions
 
 
 from views.user import create_user, login_user
@@ -147,6 +148,9 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_reaction(id)}"
                 else:
                     response = f"{get_all_reactions()}"
+            if resource == "post_reactions":
+                if id is not None:
+                    response = f"{get_all_post_reactions}"
         else: #there is a ? in the path.
             (resource, query) = parsed
             if query.get('user_id') and resource == 'posts':
@@ -154,7 +158,6 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             if query.get('post_id') and resource == 'comments':
                 response = get_comments_by_post(query['post_id'][0])
-
         self.wfile.write(response.encode())
 
 
