@@ -109,3 +109,24 @@ def update_post_reaction(id, new_post_reaction):
       return False
   else:
       return True
+
+def get_reactions_by_post(post_id):
+  
+  with sqlite3.connect("./db.sqlite3") as conn:
+    conn.row_factory = sqlite3.Row
+    db_cursor = conn.cursor()
+    
+    db_cursor.execute("""
+    SELECT * FROM PostReactions pr
+    JOIN Posts p on pr.post_id = p.id
+    WHERE pr.post_id = (?)
+    """, (post_id, ))
+    
+    post_reactions = []
+    dataset = db_cursor.fetchall()
+    
+    for row in dataset:
+      post_reaction = Post_Reaction(row['id'], row['user_id'], row['reaction_id'], row['post_id'])
+      post_reactions.append(post_reaction.__dict__)
+      
+      return json.dumps(post_reactions)

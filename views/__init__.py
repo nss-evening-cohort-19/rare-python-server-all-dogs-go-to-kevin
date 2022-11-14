@@ -57,5 +57,6 @@ from.post_reaction_requests import (
     get_single_post_reaction,
     create_post_reaction,
     update_post_reaction,
-    delete_post_reaction
+    delete_post_reaction,
+    get_reactions_by_post
 )
