@@ -120,3 +120,6 @@ WHERE p.id = 3
 INSERT INTO `Reactions` VALUES (NULL, "A Label", "https://tinyurl.com/4zrpet4x");
 INSERT INTO `Reactions` VALUES (NULL, "Another Label", "https://tinyurl.com/3vb8mex4");
 INSERT INTO `Reactions` VALUES (NULL, "Another One", "https://tinyurl.com/yc494r5k");
+
+INSERT INTO `PostReactions` VALUES (Null, Null, 1, 1);
+INSERT INTO `PostReactions` VALUES (Null, Null, 2, 2);

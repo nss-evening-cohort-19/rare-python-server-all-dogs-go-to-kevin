@@ -1,6 +1,9 @@
 import sqlite3
 import json
-from models.post_reaction import Post_Reaction
+from models import (
+  Post_Reaction,
+  Reaction
+)
 
 def get_all_post_reactions():
     with sqlite3.connect("./db.sqlite3") as conn:
@@ -10,11 +13,16 @@ def get_all_post_reactions():
         
         db_cursor.execute("""
         SELECT
-            p.id,
-            p.user_id,
-            p.reaction_id,
-            p.post_id
-        FROM Post_Reactions p
+            pr.id,
+            pr.user_id,
+            pr.reaction_id,
+            pr.post_id,
+            r.id,
+            r.label,
+            r.image_url
+        FROM PostReactions pr
+        JOIN Reactions r
+          on r.id = pr.reaction_id
         """)
         
         post_reactions = []
@@ -22,12 +30,14 @@ def get_all_post_reactions():
         dataset = db_cursor.fetchall()
         
         for row in dataset:
-          
             post_reaction = Post_Reaction(row['id'], row['user_id'], row['reaction_id'], row['post_id'])
             
+            reaction = Reaction(row['id'], row['label'], row['image_url'])
+            
+            post_reaction.reaction = reaction.__dict__
             post_reactions.append(post_reaction.__dict__)
 
-        return json.dumps(post_reactions)
+    return json.dumps(post_reactions)
 
 def get_single_post_reaction(id):
   with sqlite3.connect("./db.sqlite3") as conn:
@@ -42,7 +52,7 @@ def get_single_post_reaction(id):
         p.reaction id,
         p.post_id
         
-    FROM Post_Reactions p
+    FROM PostReactions p
     WHERE p.id = ?
     """, ( id, ))
     
@@ -58,10 +68,10 @@ def create_post_reaction(new_post_reaction):
     db_cursor = conn.cursor()
     
     db_cursor.execute("""
-    INSERT INTO Post_Reactions
+    INSERT INTO PostReactions
         ( id, user_id, reaction_id, post_id )
-    VALUES ( ?, ?, ?, ? );
-    """, (new_post_reaction['id'], new_post_reaction['user_id'], new_post_reaction['reaction_id'], new_post_reaction['post_id'] ))
+        VALUES ( ?, ?, ?, ? );
+        """, (new_post_reaction['id'], new_post_reaction['user_id'], new_post_reaction['reaction_id'], new_post_reaction['post_id'] ))
     
     id = db_cursor.lastrowid
     
@@ -75,7 +85,7 @@ def delete_post_reaction(id):
       db_cursor = conn.cursor()
       
       db_cursor.execute("""
-      DELETE FROM POST_REACTIONS
+      DELETE FROM PostReactions
       WHERE id = ?
       """, ( id, ))
       
@@ -85,7 +95,7 @@ def update_post_reaction(id, new_post_reaction):
     db_cursor = conn.cursor()
     
     db_cursor.execute("""
-    UPDATE Reactions
+    UPDATE PostReactions
     SET
         id = ?,
         user_id = ?,
@@ -99,3 +109,24 @@ def update_post_reaction(id, new_post_reaction):
       return False
   else:
       return True
+
+def get_reactions_by_post(post_id):
+  
+  with sqlite3.connect("./db.sqlite3") as conn:
+    conn.row_factory = sqlite3.Row
+    db_cursor = conn.cursor()
+    
+    db_cursor.execute("""
+    SELECT * FROM PostReactions pr
+    JOIN Posts p on pr.post_id = p.id
+    WHERE pr.post_id = (?)
+    """, (post_id, ))
+    
+    post_reactions = []
+    dataset = db_cursor.fetchall()
+    
+    for row in dataset:
+      post_reaction = Post_Reaction(row['id'], row['user_id'], row['reaction_id'], row['post_id'])
+      post_reactions.append(post_reaction.__dict__)
+      
+      return json.dumps(post_reactions)
