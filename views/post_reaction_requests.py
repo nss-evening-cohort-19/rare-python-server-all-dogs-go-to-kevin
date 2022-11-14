@@ -10,11 +10,21 @@ def get_all_post_reactions():
         
         db_cursor.execute("""
         SELECT
+            pr.id,
+            pr.user_id,
+            pr.reaction_id,
+            pr.post_id
             p.id,
             p.user_id,
-            p.reaction_id,
-            p.post_id
-        FROM Post_Reactions p
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            p.approved
+        FROM PostReactions pr
+        JOIN Reactions r
+          on r.id = pr.post_id
         """)
         
         post_reactions = []
@@ -42,7 +52,7 @@ def get_single_post_reaction(id):
         p.reaction id,
         p.post_id
         
-    FROM Post_Reactions p
+    FROM PostReactions p
     WHERE p.id = ?
     """, ( id, ))
     
@@ -58,10 +68,10 @@ def create_post_reaction(new_post_reaction):
     db_cursor = conn.cursor()
     
     db_cursor.execute("""
-    INSERT INTO Post_Reactions
+    INSERT INTO PostReactions
         ( id, user_id, reaction_id, post_id )
-    VALUES ( ?, ?, ?, ? );
-    """, (new_post_reaction['id'], new_post_reaction['user_id'], new_post_reaction['reaction_id'], new_post_reaction['post_id'] ))
+        VALUES ( ?, ?, ?, ? );
+        """, (new_post_reaction['id'], new_post_reaction['user_id'], new_post_reaction['reaction_id'], new_post_reaction['post_id'] ))
     
     id = db_cursor.lastrowid
     
@@ -75,7 +85,7 @@ def delete_post_reaction(id):
       db_cursor = conn.cursor()
       
       db_cursor.execute("""
-      DELETE FROM POST_REACTIONS
+      DELETE FROM PostReactions
       WHERE id = ?
       """, ( id, ))
       
@@ -85,7 +95,7 @@ def update_post_reaction(id, new_post_reaction):
     db_cursor = conn.cursor()
     
     db_cursor.execute("""
-    UPDATE Reactions
+    UPDATE PostReactions
     SET
         id = ?,
         user_id = ?,

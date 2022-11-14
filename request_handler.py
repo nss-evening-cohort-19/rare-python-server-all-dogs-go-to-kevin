@@ -37,7 +37,7 @@ from views import (
     update_reaction,
     delete_reaction
     )
-from views.post_reaction_requests import get_all_post_reactions
+from views.post_reaction_requests import create_post_reaction, delete_post_reaction, get_all_post_reactions, update_post_reaction
 
 
 from views.user import create_user, login_user
@@ -175,6 +175,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         new_post_tag = None
         new_comment = None
         new_reaction = None
+        new_post_reaction = None
 
         if resource == 'login':
             response = login_user(post_body)
@@ -201,6 +202,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "reactions":
             new_reaction = create_reaction(post_body)
             self.wfile.write(f"{new_reaction}".encode())
+        if resource == "postreactions":
+            new_post_reaction = create_post_reaction(post_body)
+            self.wfile.write(f"{new_post_reaction}".encode())
 
         self.wfile.write(response.encode())
 
@@ -227,6 +231,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             success = update_category(id, post_body)
         elif resource == "reactions":
             success = update_reaction(id, post_body)
+        elif resource == "postreactions":
+            success = update_post_reaction(id, post_body)
 
         if success:
             self._set_headers(204)
@@ -254,6 +260,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             delete_category(id)
         elif resource == "reactions":
             delete_reaction(id)
+        elif resource == "postreactions":
+            delete_post_reaction(id)
 
         self.wfile.write("".encode())
 
