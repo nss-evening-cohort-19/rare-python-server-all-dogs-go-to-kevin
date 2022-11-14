@@ -22,7 +22,7 @@ def get_all_post_reactions():
             r.image_url
         FROM PostReactions pr
         JOIN Reactions r
-          on r.id = pr.post_id
+          on r.id = pr.reaction_id
         """)
         
         post_reactions = []
