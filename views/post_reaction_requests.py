@@ -1,6 +1,9 @@
 import sqlite3
 import json
-from models.post_reaction import Post_Reaction
+from models import (
+  Post_Reaction,
+  Reaction
+)
 
 def get_all_post_reactions():
     with sqlite3.connect("./db.sqlite3") as conn:
@@ -13,15 +16,10 @@ def get_all_post_reactions():
             pr.id,
             pr.user_id,
             pr.reaction_id,
-            pr.post_id
-            p.id,
-            p.user_id,
-            p.category_id,
-            p.title,
-            p.publication_date,
-            p.image_url,
-            p.content,
-            p.approved
+            pr.post_id,
+            r.id,
+            r.label,
+            r.image_url
         FROM PostReactions pr
         JOIN Reactions r
           on r.id = pr.post_id
@@ -32,12 +30,14 @@ def get_all_post_reactions():
         dataset = db_cursor.fetchall()
         
         for row in dataset:
-          
             post_reaction = Post_Reaction(row['id'], row['user_id'], row['reaction_id'], row['post_id'])
             
+            reaction = Reaction(row['id'], row['label'], row['image_url'])
+            
+            post_reaction.reaction = reaction.__dict__
             post_reactions.append(post_reaction.__dict__)
 
-        return json.dumps(post_reactions)
+    return json.dumps(post_reactions)
 
 def get_single_post_reaction(id):
   with sqlite3.connect("./db.sqlite3") as conn:
